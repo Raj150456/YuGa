@@ -35,13 +35,13 @@
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Live Deployment & Local Setup
 
-Simply open `hi.html` in any modern mobile or desktop web browser (HTTPS or localhost required for hardware sensor permissions).
+Access the live web app deployed on Vercel (HTTPS is automatically enabled for device sensor access).
 
 ```bash
-# Python HTTPS server (for local testing with sensor access)
-python server_https.py
+# Open index.html directly or serve locally with any HTTP/HTTPS server
+npx serve .
 ```
 
 ---
@@ -53,9 +53,7 @@ Layover/
 ├── index.html         # Main PWA application & 3D Safety Cockpit (Vercel entry point)
 ├── hi.html            # Alternative standalone entry point
 ├── vercel.json        # Vercel deployment & routing configuration
-├── README.md          # Project documentation
-├── server_https.py    # Local HTTPS development server
-└── tunnel.txt         # Dev tunnel configuration reference
+└── README.md          # Project documentation
 ```
 
 ---
@@ -66,3 +64,4 @@ Layover/
 - **Mapping:** Leaflet.js with CartoDB Dark Matter tiles.
 - **Sensors:** Generic Sensor API, `DeviceMotionEvent`, `DeviceOrientationEvent`, HTML5 Geolocation API.
 - **Offline & PWA:** Service Worker caching with Web Manifest.
+- **Deployment:** Vercel Static Hosting.
