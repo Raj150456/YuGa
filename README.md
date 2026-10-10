@@ -1,6 +1,6 @@
-# YuGa — OmniTrack 3D Telemetry & Safety Cockpit
+# Yugago — 3D Telemetry & Safety Cockpit
 
-**OmniTrack** is an offline-first PWA and 3D Blackbox safety system for modern transit, aviation, and rider safety. It leverages smartphone IMU sensors (accelerometer & gyroscope) combined with high-accuracy GPS telemetry to provide real-time 3D motion tracking, G-force vector analytics, and emergency crash detection.
+**Yugago** is an offline-first PWA and 3D Blackbox safety system for modern transit, aviation, and rider safety. It leverages smartphone IMU sensors (accelerometer & gyroscope) combined with high-accuracy GPS telemetry to provide real-time 3D motion tracking, G-force vector analytics, and emergency crash detection.
 
 ---
 

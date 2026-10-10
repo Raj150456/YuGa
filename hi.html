@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>OmniTrack — Multimodal 3D Telemetry & Safety Cockpit</title>
+  <title>Yugago — Multimodal 3D Telemetry & Safety Cockpit</title>
   <meta name="description" content="Offline-first travel telemetry & black box with real-time 3D motion tracking, crash safety monitoring, and 3-axis G-force analytics.">
   <meta name="theme-color" content="#070a12">
 
   <!-- Manifest Data URI for PWA Installation -->
-  <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22OmniTrack%20Blackbox%22%2C%22short_name%22%3A%22OmniTrack%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23070a12%22%2C%22theme_color%22%3A%22%2300f3ff%22%7D">
+  <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Yugago%20Blackbox%22%2C%22short_name%22%3A%22Yugago%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23070a12%22%2C%22theme_color%22%3A%22%2300f3ff%22%7D">
 
   <!-- Leaflet CSS & JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -841,7 +841,7 @@
   <!-- iOS & Sensor Ignition Overlay Screen -->
   <div id="ignition-screen">
     <div class="brand-title font-orbitron" style="font-size: 2.2rem; margin-bottom: 10px;">
-      ⚡ OMNITRACK <span>3D BLACKBOX</span>
+      ⚡ YUGAGO <span>3D BLACKBOX</span>
     </div>
     <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 380px; line-height: 1.5; margin-bottom: 12px;">
       Offline Multimodal Telemetry & Autonomous Crash Safety Cockpit for Layover 2026.
@@ -859,7 +859,7 @@
   <!-- Header Navigation Bar -->
   <header>
     <div class="brand-title font-orbitron">
-      ⚡ OMNITRACK <span>v3.0 PRO</span>
+      ⚡ YUGAGO <span>v3.0 PRO</span>
     </div>
     <div class="header-badges">
       <div class="badge active" id="badge-tracking-mode">
@@ -1072,8 +1072,8 @@
   </div>
 
   <script>
-    const STORAGE_KEY_LOGS = 'omnitrack_blackbox_logs';
-    const STORAGE_KEY_HAZARDS = 'omnitrack_hazards';
+    const STORAGE_KEY_LOGS = 'Yugago_blackbox_logs';
+    const STORAGE_KEY_HAZARDS = 'Yugago_hazards';
 
     let activeMode = 'aviation';
     let trackingSource = 'live';
@@ -1630,7 +1630,7 @@
 
     function exportLog() {
       const exportData = {
-        app: "OmniTrack Mobile PWA",
+        app: "Yugago Mobile PWA",
         timestamp: new Date().toISOString(),
         mode: activeMode,
         trackingSource: trackingSource,
@@ -1642,14 +1642,14 @@
       const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `omnitrack_blackbox_${Date.now()}.json`;
+      a.download = `Yugago_blackbox_${Date.now()}.json`;
       a.click();
     }
 
     function registerServiceWorker() {
       if ('serviceWorker' in navigator) {
         const swCode = `
-          const CACHE_NAME = 'omnitrack-v6-responsive';
+          const CACHE_NAME = 'Yugago-v6-responsive';
           self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['./', './hi.html'])).then(() => self.skipWaiting())));
           self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
           self.addEventListener('fetch', e => {
@@ -1664,3 +1664,4 @@
   </script>
 </body>
 </html>
+
