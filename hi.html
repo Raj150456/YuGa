@@ -98,10 +98,24 @@
 
     .breath-text {
       font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
+      font-size: 1.85rem;
       color: var(--charcoal);
       letter-spacing: -0.5px;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.55s ease;
+      text-align: center;
+      max-width: 280px;
+      line-height: 1.25;
+    }
+
+    .breath-sub {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      transition: opacity 0.55s ease;
     }
 
     /* The orange blob that rises & falls */
@@ -962,9 +976,10 @@
     <div class="splash-accent acc-3"></div>
     <div class="splash-accent acc-4"></div>
 
-    <!-- Breathing label at top -->
+    <!-- Hackathon tagline at top -->
     <div class="splash-top">
-      <p id="breath-label" class="breath-text">Breathe in</p>
+      <p id="breath-label" class="breath-text">Built at Layover 2026</p>
+      <p id="breath-sub" class="breath-sub">✦ TinkerSpace Hackathon ✦</p>
     </div>
 
     <!-- Animated orange blob with smiley -->
@@ -1195,17 +1210,29 @@
   </div>
 
   <script>
-    /* ─── Breathing animation on splash ─── */
+    /* ─── Layover 2026 tagline rotator ─── */
+    const TAGLINES = [
+      { main: 'Built at Layover 2026',  sub: '✦ TinkerSpace Hackathon ✦' },
+      { main: 'Hack the Journey',        sub: '✦ Real-Time Telemetry ✦' },
+      { main: 'Feel the G-Force',        sub: '✦ 3-Axis Motion Tracking ✦' },
+      { main: 'Safety in Motion',        sub: '✦ Crash Detection AI ✦' },
+      { main: 'Your Ride. Your Data.',   sub: '✦ Offline-First PWA ✦' },
+      { main: '48 Hours of Building',    sub: '✦ Team Yugago ✦' },
+    ];
     const breathLabel = document.getElementById('breath-label');
-    let breathIn = true;
+    const breathSub   = document.getElementById('breath-sub');
+    let tagIdx = 0;
     setInterval(() => {
-      breathIn = !breathIn;
+      tagIdx = (tagIdx + 1) % TAGLINES.length;
       breathLabel.style.opacity = '0';
+      breathSub.style.opacity   = '0';
       setTimeout(() => {
-        breathLabel.textContent = breathIn ? 'Breathe in' : 'Breathe out';
+        breathLabel.textContent = TAGLINES[tagIdx].main;
+        breathSub.textContent   = TAGLINES[tagIdx].sub;
         breathLabel.style.opacity = '1';
+        breathSub.style.opacity   = '1';
       }, 500);
-    }, 4000); // matches CSS animation duration
+    }, 4000);
 
     /* ─── App State ─── */
     const STORAGE_KEY_LOGS    = 'Yugago_blackbox_logs';
