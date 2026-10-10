@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Yugago — 3D Telemetry & Safety Cockpit</title>
-  <meta name="description" content="Offline-first travel telemetry & safety cockpit with real-time 3D motion tracking, crash safety monitoring, and 3-axis G-force analytics.">
+  <meta name="description"
+    content="Offline-first travel telemetry & safety cockpit with real-time 3D motion tracking, crash safety monitoring, and 3-axis G-force analytics.">
   <meta name="theme-color" content="#F06526">
 
-  <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Yugago%20Blackbox%22%2C%22short_name%22%3A%22Yugago%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FAF7F2%22%2C%22theme_color%22%3A%22%23F06526%22%7D">
+  <link rel="manifest"
+    href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Yugago%20Blackbox%22%2C%22short_name%22%3A%22Yugago%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FAF7F2%22%2C%22theme_color%22%3A%22%23F06526%22%7D">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <style>
     :root {
       /* Primary Brand */
-      --orange:       #F06526;
+      --orange: #F06526;
       --orange-light: #F4895A;
-      --orange-pale:  #FDE8DC;
-      --yellow:       #FFBA00;
+      --orange-pale: #FDE8DC;
+      --yellow: #FFBA00;
       --yellow-light: #FFF0B3;
       /* Action */
-      --blue:         #1172FA;
-      --blue-light:   #E8F1FF;
+      --blue: #1172FA;
+      --blue-light: #E8F1FF;
       /* Text */
-      --charcoal:     #2E2E2E;
-      --text-muted:   #767676;
-      --text-dim:     #AAAAAA;
+      --charcoal: #2E2E2E;
+      --text-muted: #767676;
+      --text-dim: #AAAAAA;
       /* Accents */
-      --sky:          #29B2FE;
-      --lavender:     #7A58B0;
-      --coral:        #E55B53;
-      --emerald:      #2DB87A;
+      --sky: #29B2FE;
+      --lavender: #7A58B0;
+      --coral: #E55B53;
+      --emerald: #2DB87A;
       /* Surfaces */
-      --white:        #FFFFFF;
-      --cream:        #FAF7F2;
-      --gray-100:     #F4F2EE;
-      --gray-200:     #E5E5E5;
-      --gray-300:     #CCCCCC;
+      --white: #FFFFFF;
+      --cream: #FAF7F2;
+      --gray-100: #F4F2EE;
+      --gray-200: #E5E5E5;
+      --gray-300: #CCCCCC;
     }
 
     * {
@@ -63,9 +69,19 @@
     }
 
     /* ─── Scrollbar ─── */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: var(--gray-100); }
-    ::-webkit-scrollbar-thumb { background: var(--orange-light); border-radius: 4px; }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--gray-100);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--orange-light);
+      border-radius: 4px;
+    }
 
     /* ══════════════════════════════════════════════
        SPLASH / IGNITION SCREEN — Breathing Smiley
@@ -121,10 +137,10 @@
     /* The orange blob that rises & falls */
     .splash-blob-wrap {
       position: absolute;
-      bottom: 0;
+      bottom: -60px;
       left: 0;
       right: 0;
-      height: 68%;
+      height: calc(68% + 60px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -134,9 +150,17 @@
     }
 
     @keyframes breathe {
-      0%   { transform: translateY(0px); }
-      50%  { transform: translateY(-44px); }
-      100% { transform: translateY(0px); }
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-44px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
     }
 
     /* The rounded sky blue fill — looks like the rising tide in Headspace */
@@ -160,7 +184,8 @@
     }
 
     /* Eyes */
-    .smiley-eye-left, .smiley-eye-right {
+    .smiley-eye-left,
+    .smiley-eye-right {
       position: absolute;
       top: 38px;
       width: 14px;
@@ -169,8 +194,14 @@
       border-radius: 14px 14px 0 0;
       transform-origin: bottom center;
     }
-    .smiley-eye-left  { left: 34px; }
-    .smiley-eye-right { right: 34px; }
+
+    .smiley-eye-left {
+      left: 34px;
+    }
+
+    .smiley-eye-right {
+      right: 34px;
+    }
 
     /* Smile arc */
     .smiley-mouth {
@@ -190,13 +221,67 @@
       border-radius: 50%;
       opacity: 0.85;
     }
-    .acc-1 { width:22px; height:22px; background: var(--sky);     top: 20%; left: 12%; animation: float1 5s ease-in-out infinite; }
-    .acc-2 { width:16px; height:16px; background: var(--yellow);  top: 16%; right:14%; animation: float2 4.5s ease-in-out infinite; border-radius: 4px; }
-    .acc-3 { width:28px; height:28px; background: var(--lavender);top: 38%; left:  8%; animation: float1 6s ease-in-out infinite; }
-    .acc-4 { width:18px; height:18px; background: var(--coral);   top: 32%; right: 9%; animation: float2 5.5s ease-in-out infinite; }
 
-    @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    @keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(12deg)} }
+    .acc-1 {
+      width: 22px;
+      height: 22px;
+      background: var(--sky);
+      top: 20%;
+      left: 12%;
+      animation: float1 5s ease-in-out infinite;
+    }
+
+    .acc-2 {
+      width: 16px;
+      height: 16px;
+      background: var(--yellow);
+      top: 16%;
+      right: 14%;
+      animation: float2 4.5s ease-in-out infinite;
+      border-radius: 4px;
+    }
+
+    .acc-3 {
+      width: 28px;
+      height: 28px;
+      background: var(--lavender);
+      top: 38%;
+      left: 8%;
+      animation: float1 6s ease-in-out infinite;
+    }
+
+    .acc-4 {
+      width: 18px;
+      height: 18px;
+      background: var(--coral);
+      top: 32%;
+      right: 9%;
+      animation: float2 5.5s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-10px)
+      }
+    }
+
+    @keyframes float2 {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg)
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(12deg)
+      }
+    }
 
     /* ENGAGE button at bottom of splash */
     .splash-cta {
@@ -251,7 +336,7 @@
       top: 0;
       z-index: 500;
       gap: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     }
 
     .brand-title {
@@ -288,8 +373,8 @@
       font-weight: 600;
       padding: 5px 11px;
       border-radius: 20px;
-      background: rgba(255,255,255,0.5);
-      border: 1.5px solid rgba(46,46,46,0.18);
+      background: rgba(255, 255, 255, 0.5);
+      border: 1.5px solid rgba(46, 46, 46, 0.18);
       color: var(--text-muted);
       display: flex;
       align-items: center;
@@ -317,9 +402,17 @@
     }
 
     @keyframes pulse {
-      0%  { opacity: 0.4; }
-      50% { opacity: 1; }
-      100%{ opacity: 0.4; }
+      0% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.4;
+      }
     }
 
     /* ══════════════════════════════════════════
@@ -356,9 +449,21 @@
         padding: 12px;
         gap: 14px;
       }
-      .map-section { order: 1; min-height: auto; }
-      .sidebar     { order: 2; }
-      .map-card    { height: 48vh !important; min-height: 300px !important; max-height: 450px !important; }
+
+      .map-section {
+        order: 1;
+        min-height: auto;
+      }
+
+      .sidebar {
+        order: 2;
+      }
+
+      .map-card {
+        height: 48vh !important;
+        min-height: 300px !important;
+        max-height: 450px !important;
+      }
     }
 
     /* ══════════════════════════════════════════
@@ -368,7 +473,7 @@
       background: var(--white);
       border-radius: 20px;
       padding: 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.05);
       border: 1.5px solid var(--gray-200);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
@@ -376,7 +481,7 @@
     }
 
     .glass-card:hover {
-      box-shadow: 0 6px 24px rgba(240,101,38,0.12), 0 2px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 6px 24px rgba(240, 101, 38, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
       border-color: var(--orange-pale);
     }
 
@@ -384,7 +489,9 @@
     .glass-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--orange), var(--yellow));
       border-radius: 20px 20px 0 0;
@@ -442,10 +549,12 @@
     .mode-tab.active {
       background: var(--orange-pale);
       border-color: var(--orange);
-      box-shadow: 0 4px 12px rgba(240,101,38,0.2);
+      box-shadow: 0 4px 12px rgba(240, 101, 38, 0.2);
     }
 
-    .mode-tab.active .mode-title { color: var(--orange); }
+    .mode-tab.active .mode-title {
+      color: var(--orange);
+    }
 
     /* ══════════════════════════════════════════
        TOGGLE BAR
@@ -475,20 +584,23 @@
       background: var(--white);
       border: 1px solid var(--emerald);
       color: var(--emerald);
-      box-shadow: 0 2px 8px rgba(45,184,122,0.2);
+      box-shadow: 0 2px 8px rgba(45, 184, 122, 0.2);
     }
 
     .toggle-option.active[data-target="sim"] {
       background: var(--white);
       border: 1px solid var(--blue);
       color: var(--blue);
-      box-shadow: 0 2px 8px rgba(17,114,250,0.2);
+      box-shadow: 0 2px 8px rgba(17, 114, 250, 0.2);
     }
 
     /* ══════════════════════════════════════════
        BUTTONS
     ══════════════════════════════════════════ */
-    .control-btn-group { display: flex; gap: 10px; }
+    .control-btn-group {
+      display: flex;
+      gap: 10px;
+    }
 
     .btn {
       flex: 1;
@@ -509,22 +621,24 @@
     .btn-primary {
       background: var(--blue);
       color: var(--white);
-      box-shadow: 0 4px 16px rgba(17,114,250,0.3);
+      box-shadow: 0 4px 16px rgba(17, 114, 250, 0.3);
     }
+
     .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(17,114,250,0.45);
+      box-shadow: 0 6px 20px rgba(17, 114, 250, 0.45);
       transform: translateY(-2px);
     }
 
     .btn-danger {
-      background: rgba(229,91,83,0.1);
+      background: rgba(229, 91, 83, 0.1);
       border: 1.5px solid var(--coral);
       color: var(--coral);
     }
+
     .btn-danger:hover {
-      background: rgba(229,91,83,0.18);
+      background: rgba(229, 91, 83, 0.18);
       transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(229,91,83,0.25);
+      box-shadow: 0 4px 14px rgba(229, 91, 83, 0.25);
     }
 
     .btn-outline {
@@ -532,6 +646,7 @@
       border: 1.5px solid var(--gray-200);
       color: var(--charcoal);
     }
+
     .btn-outline:hover {
       border-color: var(--orange);
       color: var(--orange);
@@ -551,6 +666,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
+
     .btn-calibrate:hover {
       background: var(--orange);
       color: var(--white);
@@ -577,9 +693,9 @@
       border-radius: 50%;
       position: absolute;
       overflow: hidden;
-      border: 2px solid rgba(240,101,38,0.3);
+      border: 2px solid rgba(240, 101, 38, 0.3);
       transition: transform 0.06s ease-out;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
     }
 
     .horizon-sky {
@@ -596,7 +712,7 @@
       width: 100%;
       text-align: center;
       font-size: 0.6rem;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255, 255, 255, 0.75);
       line-height: 1.8;
     }
 
@@ -614,7 +730,7 @@
       width: 100%;
       text-align: center;
       font-size: 0.6rem;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255, 255, 255, 0.75);
       line-height: 1.8;
     }
 
@@ -623,11 +739,12 @@
       width: 90px;
       height: 2px;
       background: var(--yellow);
-      box-shadow: 0 0 8px rgba(255,186,0,0.8);
+      box-shadow: 0 0 8px rgba(255, 186, 0, 0.8);
       z-index: 10;
     }
 
-    .horizon-crosshair::before, .horizon-crosshair::after {
+    .horizon-crosshair::before,
+    .horizon-crosshair::after {
       content: '';
       position: absolute;
       width: 18px;
@@ -635,8 +752,16 @@
       border: 2px solid var(--yellow);
       border-top: none;
     }
-    .horizon-crosshair::before { left: -18px; border-right: none; }
-    .horizon-crosshair::after  { right: -18px; border-left: none; }
+
+    .horizon-crosshair::before {
+      left: -18px;
+      border-right: none;
+    }
+
+    .horizon-crosshair::after {
+      right: -18px;
+      border-left: none;
+    }
 
     .horizon-label {
       position: absolute;
@@ -645,7 +770,7 @@
       font-size: 0.68rem;
       letter-spacing: 0.5px;
       color: var(--text-muted);
-      background: rgba(255,255,255,0.85);
+      background: rgba(255, 255, 255, 0.85);
       padding: 3px 10px;
       border-radius: 20px;
       border: 1px solid var(--gray-200);
@@ -750,7 +875,7 @@
       border-radius: 22px;
       overflow: hidden;
       border: 1.5px solid var(--gray-200);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       min-height: 420px;
       background: #EAE6DF;
     }
@@ -759,16 +884,21 @@
       width: 100%;
       height: 100%;
       position: absolute;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       z-index: 10;
     }
 
-    .leaflet-container { background: #EAE6DF !important; }
+    .leaflet-container {
+      background: #EAE6DF !important;
+    }
 
     #offline-grid-canvas {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 1;
       pointer-events: none;
       background: radial-gradient(circle at 50% 50%, #EDE8E0 0%, #E0DAD0 100%);
@@ -777,9 +907,11 @@
     /* Map HUD Overlay */
     .map-hud-overlay {
       position: absolute;
-      top: 14px; left: 14px; right: 14px;
+      top: 14px;
+      left: 14px;
+      right: 14px;
       z-index: 400;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1.5px solid var(--gray-200);
@@ -788,7 +920,7 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
 
     .map-hud-item {
@@ -823,7 +955,8 @@
 
     .map-controls-overlay {
       position: absolute;
-      bottom: 16px; right: 16px;
+      bottom: 16px;
+      right: 16px;
       z-index: 400;
       display: flex;
       flex-direction: column;
@@ -842,7 +975,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
       transition: all 0.22s ease;
     }
 
@@ -856,10 +989,10 @@
     .vehicle-marker {
       width: 28px;
       height: 28px;
-      background: radial-gradient(circle, var(--orange) 40%, rgba(240,101,38,0.3) 80%);
+      background: radial-gradient(circle, var(--orange) 40%, rgba(240, 101, 38, 0.3) 80%);
       border: 2.5px solid var(--white);
       border-radius: 50%;
-      box-shadow: 0 0 16px rgba(240,101,38,0.6);
+      box-shadow: 0 0 16px rgba(240, 101, 38, 0.6);
       position: relative;
       transition: transform 0.08s linear;
     }
@@ -881,7 +1014,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(46,46,46,0.7);
+      background: rgba(46, 46, 46, 0.7);
       backdrop-filter: blur(16px);
       z-index: 2000;
       display: flex;
@@ -901,7 +1034,7 @@
     .alert-card {
       background: var(--white);
       border: 2px solid var(--coral);
-      box-shadow: 0 12px 48px rgba(229,91,83,0.3);
+      box-shadow: 0 12px 48px rgba(229, 91, 83, 0.3);
       border-radius: 28px;
       padding: 32px 24px;
       max-width: 400px;
@@ -915,8 +1048,13 @@
     }
 
     @keyframes pulse-danger {
-      from { transform: scale(0.92); }
-      to   { transform: scale(1.12); }
+      from {
+        transform: scale(0.92);
+      }
+
+      to {
+        transform: scale(1.12);
+      }
     }
 
     .alert-title {
@@ -957,13 +1095,24 @@
       color: var(--charcoal);
     }
 
-    .log-item .log-time { color: var(--text-muted); }
-    .log-item.hazard { border-left-color: var(--yellow); }
-    .log-item.crash  { border-left-color: var(--coral); }
+    .log-item .log-time {
+      color: var(--text-muted);
+    }
 
-    .hidden { display: none !important; }
+    .log-item.hazard {
+      border-left-color: var(--yellow);
+    }
+
+    .log-item.crash {
+      border-left-color: var(--coral);
+    }
+
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- ══════════════════════════════════════════
@@ -1129,7 +1278,8 @@
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-title" id="m1-title">Total Vector G</div>
-            <div class="metric-value" id="m1-val" style="color:var(--orange);">1.00 <span class="metric-unit">G</span></div>
+            <div class="metric-value" id="m1-val" style="color:var(--orange);">1.00 <span class="metric-unit">G</span>
+            </div>
           </div>
           <div class="metric-card">
             <div class="metric-title" id="m2-title">Speed (GPS)</div>
@@ -1148,17 +1298,23 @@
           <div class="axis-bars-container">
             <div class="axis-row">
               <span class="axis-lbl">Gx (Lat)</span>
-              <div class="axis-track"><div class="axis-fill" id="bar-gx" style="width:5%;"></div></div>
+              <div class="axis-track">
+                <div class="axis-fill" id="bar-gx" style="width:5%;"></div>
+              </div>
               <span style="width:42px;text-align:right;" id="val-gx">0.00G</span>
             </div>
             <div class="axis-row">
               <span class="axis-lbl">Gy (Long)</span>
-              <div class="axis-track"><div class="axis-fill" id="bar-gy" style="width:5%;background:var(--yellow);"></div></div>
+              <div class="axis-track">
+                <div class="axis-fill" id="bar-gy" style="width:5%;background:var(--yellow);"></div>
+              </div>
               <span style="width:42px;text-align:right;" id="val-gy">0.00G</span>
             </div>
             <div class="axis-row">
               <span class="axis-lbl">Gz (Vert)</span>
-              <div class="axis-track"><div class="axis-fill" id="bar-gz" style="width:50%;background:var(--emerald);"></div></div>
+              <div class="axis-track">
+                <div class="axis-fill" id="bar-gz" style="width:50%;background:var(--emerald);"></div>
+              </div>
               <span style="width:42px;text-align:right;" id="val-gz">1.00G</span>
             </div>
           </div>
@@ -1175,7 +1331,9 @@
       <div class="glass-card">
         <div class="card-label">
           <span>Black Box Log</span>
-          <button style="background:none;border:none;color:var(--blue);font-size:0.68rem;font-weight:700;cursor:pointer;" onclick="exportLog()">EXPORT JSON</button>
+          <button
+            style="background:none;border:none;color:var(--blue);font-size:0.68rem;font-weight:700;cursor:pointer;"
+            onclick="exportLog()">EXPORT JSON</button>
         </div>
         <div class="log-list" id="event-log-container">
           <div class="log-item">
@@ -1204,7 +1362,7 @@
       </p>
       <div style="display:flex;gap:12px;">
         <button class="btn btn-outline" style="flex:1;" onclick="cancelCrashAlert()">I'm OK — Cancel</button>
-        <button class="btn btn-danger"  style="flex:1;" onclick="triggerSOSImmediate()">Send SOS Now</button>
+        <button class="btn btn-danger" style="flex:1;" onclick="triggerSOSImmediate()">Send SOS Now</button>
       </div>
     </div>
   </div>
@@ -1212,42 +1370,42 @@
   <script>
     /* ─── Layover 2026 tagline rotator ─── */
     const TAGLINES = [
-      { main: 'Built at Layover 2026',  sub: '✦ TinkerSpace Hackathon ✦' },
-      { main: 'Hack the Journey',        sub: '✦ Real-Time Telemetry ✦' },
-      { main: 'Feel the G-Force',        sub: '✦ 3-Axis Motion Tracking ✦' },
-      { main: 'Safety in Motion',        sub: '✦ Crash Detection AI ✦' },
-      { main: 'Your Ride. Your Data.',   sub: '✦ Offline-First PWA ✦' },
-      { main: '48 Hours of Building',    sub: '✦ Team Yugago ✦' },
+      { main: 'Built at Layover 2026', sub: '✦ TinkerSpace Hackathon ✦' },
+      { main: 'Hack the Journey', sub: '✦ Real-Time Telemetry ✦' },
+      { main: 'Feel the G-Force', sub: '✦ 3-Axis Motion Tracking ✦' },
+      { main: 'Safety in Motion', sub: '✦ Crash Detection AI ✦' },
+      { main: 'Your Ride. Your Data.', sub: '✦ Offline-First PWA ✦' },
+      { main: '12 Hours of Building', sub: '✦ Team Yugago ✦' },
     ];
     const breathLabel = document.getElementById('breath-label');
-    const breathSub   = document.getElementById('breath-sub');
+    const breathSub = document.getElementById('breath-sub');
     let tagIdx = 0;
     setInterval(() => {
       tagIdx = (tagIdx + 1) % TAGLINES.length;
       breathLabel.style.opacity = '0';
-      breathSub.style.opacity   = '0';
+      breathSub.style.opacity = '0';
       setTimeout(() => {
         breathLabel.textContent = TAGLINES[tagIdx].main;
-        breathSub.textContent   = TAGLINES[tagIdx].sub;
+        breathSub.textContent = TAGLINES[tagIdx].sub;
         breathLabel.style.opacity = '1';
-        breathSub.style.opacity   = '1';
+        breathSub.style.opacity = '1';
       }, 500);
     }, 4000);
 
     /* ─── App State ─── */
-    const STORAGE_KEY_LOGS    = 'Yugago_blackbox_logs';
+    const STORAGE_KEY_LOGS = 'Yugago_blackbox_logs';
     const STORAGE_KEY_HAZARDS = 'Yugago_hazards';
 
-    let activeMode     = 'aviation';
+    let activeMode = 'aviation';
     let trackingSource = 'live';
-    let isSimulating   = false;
-    let simTimer       = null;
+    let isSimulating = false;
+    let simTimer = null;
 
-    let map            = null;
-    let vehicleMarker  = null;
-    let routePolyline  = null;
-    let hazardMarkers  = [];
-    let pathCoordinates= [];
+    let map = null;
+    let vehicleMarker = null;
+    let routePolyline = null;
+    let hazardMarkers = [];
+    let pathCoordinates = [];
 
     let rawBeta = 0, rawGamma = 0, baselinePitch = 0, baselineRoll = 0;
     let currentPitch = 0, currentRoll = 0, currentSpeed = 0, currentAlt = null;
@@ -1271,13 +1429,13 @@
     function initCanvasRadar() {
       const canvas = document.getElementById('offline-grid-canvas');
       const ctx = canvas.getContext('2d');
-      canvas.width  = canvas.offsetWidth  || 800;
+      canvas.width = canvas.offsetWidth || 800;
       canvas.height = canvas.offsetHeight || 600;
       ctx.strokeStyle = 'rgba(240,101,38,0.06)';
       ctx.lineWidth = 1;
       const step = 40;
-      for (let x = 0; x < canvas.width;  x += step) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke(); }
-      for (let y = 0; y < canvas.height; y += step) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width,y);  ctx.stroke(); }
+      for (let x = 0; x < canvas.width; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke(); }
+      for (let y = 0; y < canvas.height; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke(); }
     }
 
     document.getElementById('start-engine-btn').addEventListener('click', () => {
@@ -1289,7 +1447,7 @@
     function initMap() {
       try {
         map = L.map('map', { zoomControl: false, attributionControl: false })
-               .setView([11.2588, 75.7804], 15);
+          .setView([11.2588, 75.7804], 15);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
           maxZoom: 19, subdomains: 'abcd'
@@ -1298,7 +1456,7 @@
         const customIcon = L.divIcon({
           className: 'custom-vehicle-div',
           html: `<div class="vehicle-marker" id="live-vehicle-marker"></div>`,
-          iconSize: [28,28], iconAnchor: [14,14]
+          iconSize: [28, 28], iconAnchor: [14, 14]
         });
         vehicleMarker = L.marker([11.2588, 75.7804], { icon: customIcon }).addTo(map);
 
@@ -1314,7 +1472,7 @@
 
     function calibrateZero() {
       baselinePitch = rawBeta;
-      baselineRoll  = rawGamma;
+      baselineRoll = rawGamma;
       if ('vibrate' in navigator) navigator.vibrate(80);
       addLogItem('Gyro Calibrated: Zero set to current position');
     }
@@ -1325,7 +1483,7 @@
       document.querySelector(`.toggle-option[data-target="${source}"]`).classList.add('active');
 
       const hudSrc = document.getElementById('hud-source-txt');
-      const badge  = document.getElementById('badge-tracking-mode');
+      const badge = document.getElementById('badge-tracking-mode');
 
       if (source === 'live') {
         if (simTimer) clearInterval(simTimer);
@@ -1383,21 +1541,21 @@
       simState.t += 0.2;
       let turnRate = Math.sin(simState.t * 0.3) * 3.5;
       simState.heading += turnRate;
-      simState.roll  = turnRate * 8.5 + (Math.sin(simState.t * 1.2) * 2.0);
+      simState.roll = turnRate * 8.5 + (Math.sin(simState.t * 1.2) * 2.0);
       simState.pitch = Math.sin(simState.t * 0.15) * 12.0;
       simState.speed += (simState.targetSpeed - simState.speed) * 0.05 + (Math.sin(simState.t * 0.8) * 4);
-      simState.alt  += Math.sin(simState.pitch * Math.PI / 180) * (simState.speed / 15);
-      simState.alt   = Math.max(10, simState.alt);
+      simState.alt += Math.sin(simState.pitch * Math.PI / 180) * (simState.speed / 15);
+      simState.alt = Math.max(10, simState.alt);
       let distMeters = (simState.speed / 3.6) * 0.2;
       let headingRad = simState.heading * Math.PI / 180;
       let dLat = (distMeters * Math.cos(headingRad)) / 111111;
       let dLng = (distMeters * Math.sin(headingRad)) / (111111 * Math.cos(simState.lat * Math.PI / 180));
       simState.lat += dLat;
       simState.lng += dLng;
-      let simGx    = (turnRate * 0.18).toFixed(2);
-      let simGy    = ((Math.cos(simState.t * 0.8) * 0.15)).toFixed(2);
-      let simGz    = (1.0 + (simState.pitch * 0.02) + (Math.sin(simState.t * 3) * 0.08)).toFixed(2);
-      let simGTotal = Math.sqrt(simGx*simGx + simGy*simGy + simGz*simGz).toFixed(2);
+      let simGx = (turnRate * 0.18).toFixed(2);
+      let simGy = ((Math.cos(simState.t * 0.8) * 0.15)).toFixed(2);
+      let simGz = (1.0 + (simState.pitch * 0.02) + (Math.sin(simState.t * 3) * 0.08)).toFixed(2);
+      let simGTotal = Math.sqrt(simGx * simGx + simGy * simGy + simGz * simGz).toFixed(2);
       update3DTelemetryUI(simState.lat, simState.lng, simState.speed, simGTotal, simGx, simGy, simGz, simState.pitch, simState.roll, simState.alt);
     }
 
@@ -1405,35 +1563,35 @@
 
     function update3DTelemetryUI(lat, lng, speed, gTot, gX, gY, gZ, pitch, roll, alt) {
       currentSpeed = speed; currentPitch = pitch; currentRoll = roll; currentAlt = alt;
-      let tGx = parseFloat(gX)||0, tGy = parseFloat(gY)||0, tGz = parseFloat(gZ)||1.0, tGT = parseFloat(gTot)||1.0;
-      gx = gx*0.7 + tGx*0.3; gy = gy*0.7 + tGy*0.3; gz = gz*0.7 + tGz*0.3;
-      smoothedGTotal = smoothedGTotal*0.7 + tGT*0.3;
-      smoothedSpeed  = smoothedSpeed*0.7  + (speed||0)*0.3;
+      let tGx = parseFloat(gX) || 0, tGy = parseFloat(gY) || 0, tGz = parseFloat(gZ) || 1.0, tGT = parseFloat(gTot) || 1.0;
+      gx = gx * 0.7 + tGx * 0.3; gy = gy * 0.7 + tGy * 0.3; gz = gz * 0.7 + tGz * 0.3;
+      smoothedGTotal = smoothedGTotal * 0.7 + tGT * 0.3;
+      smoothedSpeed = smoothedSpeed * 0.7 + (speed || 0) * 0.3;
       gTotal = smoothedGTotal;
 
       document.getElementById('m1-val').innerHTML = `${smoothedGTotal.toFixed(2)} <span class="metric-unit">G</span>`;
       document.getElementById('m2-val').innerHTML = `${Math.round(smoothedSpeed)} <span class="metric-unit">km/h</span>`;
-      document.getElementById('m3-val').innerHTML = `${alt!==null?Math.round(alt):'--'} <span class="metric-unit">m</span>`;
-      let score = Math.max(50, Math.min(100, Math.round(100-(Math.abs(smoothedGTotal-1.0)*30))));
+      document.getElementById('m3-val').innerHTML = `${alt !== null ? Math.round(alt) : '--'} <span class="metric-unit">m</span>`;
+      let score = Math.max(50, Math.min(100, Math.round(100 - (Math.abs(smoothedGTotal - 1.0) * 30))));
       document.getElementById('m4-val').innerText = `${score}%`;
-      document.getElementById('hud-speed').innerText  = `${Math.round(smoothedSpeed)} KM/H`;
+      document.getElementById('hud-speed').innerText = `${Math.round(smoothedSpeed)} KM/H`;
       document.getElementById('hud-gforce').innerText = `${smoothedGTotal.toFixed(2)} G`;
-      document.getElementById('val-gx').innerText = `${gx>=0?'+':''}${gx.toFixed(2)}G`;
-      document.getElementById('val-gy').innerText = `${gy>=0?'+':''}${gy.toFixed(2)}G`;
+      document.getElementById('val-gx').innerText = `${gx >= 0 ? '+' : ''}${gx.toFixed(2)}G`;
+      document.getElementById('val-gy').innerText = `${gy >= 0 ? '+' : ''}${gy.toFixed(2)}G`;
       document.getElementById('val-gz').innerText = `${gz.toFixed(2)}G`;
-      document.getElementById('bar-gx').style.width = `${Math.min(100,Math.abs(gx)*100)}%`;
-      document.getElementById('bar-gy').style.width = `${Math.min(100,Math.abs(gy)*100)}%`;
-      document.getElementById('bar-gz').style.width = `${Math.min(100,(gz/2.0)*100)}%`;
+      document.getElementById('bar-gx').style.width = `${Math.min(100, Math.abs(gx) * 100)}%`;
+      document.getElementById('bar-gy').style.width = `${Math.min(100, Math.abs(gy) * 100)}%`;
+      document.getElementById('bar-gz').style.width = `${Math.min(100, (gz / 2.0) * 100)}%`;
       const horizonEl = document.getElementById('horizon-element');
-      const angleTxt  = document.getElementById('horizon-angle-txt');
-      horizonEl.style.transform = `rotate(${-roll}deg) translateY(${Math.max(-65,Math.min(65,pitch*1.6))}px)`;
-      angleTxt.innerText = `PITCH: ${pitch>=0?'+':''}${pitch.toFixed(1)}° | ROLL: ${roll>=0?'+':''}${roll.toFixed(1)}°`;
+      const angleTxt = document.getElementById('horizon-angle-txt');
+      horizonEl.style.transform = `rotate(${-roll}deg) translateY(${Math.max(-65, Math.min(65, pitch * 1.6))}px)`;
+      angleTxt.innerText = `PITCH: ${pitch >= 0 ? '+' : ''}${pitch.toFixed(1)}° | ROLL: ${roll >= 0 ? '+' : ''}${roll.toFixed(1)}°`;
       const newPos = [lat, lng];
       pathCoordinates.push(newPos);
       if (routePolyline) routePolyline.setLatLngs(pathCoordinates);
       if (vehicleMarker) vehicleMarker.setLatLng(newPos);
       const markerDiv = document.getElementById('live-vehicle-marker');
-      if (markerDiv) markerDiv.style.transform = `rotate(${roll*2.5}deg)`;
+      if (markerDiv) markerDiv.style.transform = `rotate(${roll * 2.5}deg)`;
       document.getElementById('hud-pts').innerText = `${pathCoordinates.length} PTS`;
       if (map) map.panTo(newPos, { animate: true, duration: 0.3 });
       if (gTotal >= 3.2) triggerCrashAlert(`3D Impact Spike Detected (${gTotal.toFixed(2)} G)`);
@@ -1441,9 +1599,9 @@
 
     function requestSensorPermissions() {
       const badge = document.getElementById('badge-sensors');
-      if (typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function') {
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission().then(state => {
-          if (state==='granted') { bindSensors(); badge.classList.add('active'); badge.innerHTML=`<div class="badge-dot"></div> 📡 SENSORS ACTIVE`; }
+          if (state === 'granted') { bindSensors(); badge.classList.add('active'); badge.innerHTML = `<div class="badge-dot"></div> 📡 SENSORS ACTIVE`; }
         });
       } else {
         bindSensors();
@@ -1453,20 +1611,20 @@
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(pos => {
           userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-          if (trackingSource==='live') {
-            if (map) map.setView([userLat,userLng],16);
-            if (vehicleMarker) vehicleMarker.setLatLng([userLat,userLng]);
+          if (trackingSource === 'live') {
+            if (map) map.setView([userLat, userLng], 16);
+            if (vehicleMarker) vehicleMarker.setLatLng([userLat, userLng]);
             addLogItem(`GPS Locked: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`);
           }
-        }, () => addLogItem('GPS Notice: Enable location permissions','hazard'), { enableHighAccuracy:true });
+        }, () => addLogItem('GPS Notice: Enable location permissions', 'hazard'), { enableHighAccuracy: true });
         navigator.geolocation.watchPosition(pos => {
           userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-          if (trackingSource==='live') {
-            const speed = (pos.coords.speed||0)*3.6;
-            const alt   = pos.coords.altitude!==null?pos.coords.altitude:null;
-            update3DTelemetryUI(userLat,userLng,speed,gTotal,gx,gy,gz,currentPitch,currentRoll,alt);
+          if (trackingSource === 'live') {
+            const speed = (pos.coords.speed || 0) * 3.6;
+            const alt = pos.coords.altitude !== null ? pos.coords.altitude : null;
+            update3DTelemetryUI(userLat, userLng, speed, gTotal, gx, gy, gz, currentPitch, currentRoll, alt);
           }
-        }, err => console.log('GPS Watch note:',err), { enableHighAccuracy:true, maximumAge:1000, timeout:10000 });
+        }, err => console.log('GPS Watch note:', err), { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 });
       }
     }
 
@@ -1474,37 +1632,37 @@
       window.addEventListener('devicemotion', event => {
         if (event.accelerationIncludingGravity) {
           const acc = event.accelerationIncludingGravity;
-          gx = parseFloat((acc.x/9.81).toFixed(2));
-          gy = parseFloat((acc.y/9.81).toFixed(2));
-          gz = parseFloat((acc.z/9.81).toFixed(2));
-          gTotal = parseFloat(Math.sqrt(gx*gx+gy*gy+gz*gz).toFixed(2));
-          if (gTotal>3.0) triggerCrashAlert(`Hardware Accelerometer Impact (${gTotal} G)`);
+          gx = parseFloat((acc.x / 9.81).toFixed(2));
+          gy = parseFloat((acc.y / 9.81).toFixed(2));
+          gz = parseFloat((acc.z / 9.81).toFixed(2));
+          gTotal = parseFloat(Math.sqrt(gx * gx + gy * gy + gz * gz).toFixed(2));
+          if (gTotal > 3.0) triggerCrashAlert(`Hardware Accelerometer Impact (${gTotal} G)`);
         }
       });
       window.addEventListener('deviceorientation', event => {
-        if (event.beta!==null && event.gamma!==null) {
+        if (event.beta !== null && event.gamma !== null) {
           rawBeta = event.beta; rawGamma = event.gamma;
-          if (trackingSource==='live') {
-            let calcPitch = rawBeta  - baselinePitch;
-            let calcRoll  = rawGamma - baselineRoll;
-            if (calcPitch> 180) calcPitch-=360; if (calcPitch<-180) calcPitch+=360;
-            if (calcRoll >  90) calcRoll -=180; if (calcRoll < -90) calcRoll +=180;
-            if (window.orientation===90)  { let t=calcPitch; calcPitch=calcRoll;  calcRoll=-t; }
-            if (window.orientation===-90) { let t=calcPitch; calcPitch=-calcRoll; calcRoll=t;  }
+          if (trackingSource === 'live') {
+            let calcPitch = rawBeta - baselinePitch;
+            let calcRoll = rawGamma - baselineRoll;
+            if (calcPitch > 180) calcPitch -= 360; if (calcPitch < -180) calcPitch += 360;
+            if (calcRoll > 90) calcRoll -= 180; if (calcRoll < -90) calcRoll += 180;
+            if (window.orientation === 90) { let t = calcPitch; calcPitch = calcRoll; calcRoll = -t; }
+            if (window.orientation === -90) { let t = calcPitch; calcPitch = -calcRoll; calcRoll = t; }
             currentPitch = parseFloat(calcPitch.toFixed(1));
-            currentRoll  = parseFloat(calcRoll.toFixed(1));
-            if (userLat && userLng) update3DTelemetryUI(userLat,userLng,currentSpeed,gTotal,gx,gy,gz,currentPitch,currentRoll,currentAlt);
+            currentRoll = parseFloat(calcRoll.toFixed(1));
+            if (userLat && userLng) update3DTelemetryUI(userLat, userLng, currentSpeed, gTotal, gx, gy, gz, currentPitch, currentRoll, currentAlt);
           }
         }
       });
     }
 
     function flagHazard() {
-      if ('vibrate' in navigator) navigator.vibrate([100,50,100]);
-      const center = vehicleMarker ? vehicleMarker.getLatLng() : (map?map.getCenter():{lat:11.2588,lng:75.7804});
+      if ('vibrate' in navigator) navigator.vibrate([100, 50, 100]);
+      const center = vehicleMarker ? vehicleMarker.getLatLng() : (map ? map.getCenter() : { lat: 11.2588, lng: 75.7804 });
       if (map) {
-        const hazardIcon = L.divIcon({ html:`<div style="font-size:1.7rem;filter:drop-shadow(0 0 6px #FFBA00);">🚩</div>`, iconSize:[28,28] });
-        L.marker([center.lat,center.lng],{icon:hazardIcon}).addTo(map)
+        const hazardIcon = L.divIcon({ html: `<div style="font-size:1.7rem;filter:drop-shadow(0 0 6px #FFBA00);">🚩</div>`, iconSize: [28, 28] });
+        L.marker([center.lat, center.lng], { icon: hazardIcon }).addTo(map)
           .bindPopup(`<b>Pothole / Hazard</b><br>Lat: ${center.lat.toFixed(4)}, Lng: ${center.lng.toFixed(4)}`).openPopup();
         hazardMarkers.push(center);
       }
@@ -1514,7 +1672,7 @@
 
     function triggerCrashAlert(reason) {
       if (document.getElementById('crash-modal').classList.contains('active')) return;
-      if ('vibrate' in navigator) navigator.vibrate([300,100,300,100,500]);
+      if ('vibrate' in navigator) navigator.vibrate([300, 100, 300, 100, 500]);
       playAudioAlarm();
       document.getElementById('crash-reason').innerText = reason;
       document.getElementById('crash-modal').classList.add('active');
@@ -1524,7 +1682,7 @@
       sosTimerId = setInterval(() => {
         sosCountdown--;
         document.getElementById('sos-timer').innerText = sosCountdown;
-        if (sosCountdown<=0) { clearInterval(sosTimerId); triggerSOSImmediate(); }
+        if (sosCountdown <= 0) { clearInterval(sosTimerId); triggerSOSImmediate(); }
       }, 1000);
     }
 
@@ -1543,20 +1701,20 @@
 
     function playAudioAlarm() {
       try {
-        const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime+0.5);
+        osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.5);
         gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime+0.5);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
         osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime+0.5);
-      } catch(e) {}
+        osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+      } catch (e) { }
     }
 
-    function recenterMap() { if (vehicleMarker&&map) map.panTo(vehicleMarker.getLatLng()); }
+    function recenterMap() { if (vehicleMarker && map) map.panTo(vehicleMarker.getLatLng()); }
 
     let isDarkStyle = false;
     function toggleMapStyle() {
@@ -1566,44 +1724,44 @@
       const url = isDarkStyle
         ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
         : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
-      L.tileLayer(url, { maxZoom:19 }).addTo(map);
+      L.tileLayer(url, { maxZoom: 19 }).addTo(map);
     }
 
     function saveHazardLocally(lat, lng) {
       try {
-        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY_HAZARDS)||'[]');
+        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY_HAZARDS) || '[]');
         existing.push({ lat, lng, time: new Date().toISOString() });
         localStorage.setItem(STORAGE_KEY_HAZARDS, JSON.stringify(existing));
-      } catch(e) {}
+      } catch (e) { }
     }
 
     function loadSavedOfflineData() {
       try {
-        const savedHazards = JSON.parse(localStorage.getItem(STORAGE_KEY_HAZARDS)||'[]');
+        const savedHazards = JSON.parse(localStorage.getItem(STORAGE_KEY_HAZARDS) || '[]');
         savedHazards.forEach(h => {
           if (map) {
-            const icon = L.divIcon({ html:`<div style="font-size:1.5rem;">🚩</div>`, iconSize:[22,22] });
-            L.marker([h.lat,h.lng],{icon}).addTo(map);
+            const icon = L.divIcon({ html: `<div style="font-size:1.5rem;">🚩</div>`, iconSize: [22, 22] });
+            L.marker([h.lat, h.lng], { icon }).addTo(map);
           }
         });
-        const savedLogs = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS)||'[]');
+        const savedLogs = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS) || '[]');
         savedLogs.slice(-5).forEach(log => addLogItem(log.text, log.type, false));
-      } catch(e) {}
+      } catch (e) { }
     }
 
-    function addLogItem(text, type='info', save=true) {
+    function addLogItem(text, type = 'info', save = true) {
       const container = document.getElementById('event-log-container');
-      const timeStr   = new Date().toLocaleTimeString();
+      const timeStr = new Date().toLocaleTimeString();
       const div = document.createElement('div');
       div.className = `log-item ${type}`;
       div.innerHTML = `<span>${text}</span><span class="log-time">${timeStr}</span>`;
       container.prepend(div);
       if (save) {
         try {
-          const logs = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS)||'[]');
+          const logs = JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS) || '[]');
           logs.push({ text, type, time: timeStr });
           localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(logs.slice(-30)));
-        } catch(e) {}
+        } catch (e) { }
       }
     }
 
@@ -1615,9 +1773,9 @@
         trackingSource,
         coordinatesCount: pathCoordinates.length,
         path: pathCoordinates,
-        hazardsLogged: localStorage.getItem(STORAGE_KEY_HAZARDS)||'[]'
+        hazardsLogged: localStorage.getItem(STORAGE_KEY_HAZARDS) || '[]'
       };
-      const blob = new Blob([JSON.stringify(data,null,2)], { type:'application/json' });
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = `Yugago_blackbox_${Date.now()}.json`;
@@ -1634,10 +1792,11 @@
             e.respondWith(caches.match(e.request).then(res => res || fetch(e.request).catch(() => caches.match('./index.html'))));
           });
         `;
-        const blob = new Blob([swCode], { type:'text/javascript' });
+        const blob = new Blob([swCode], { type: 'text/javascript' });
         navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(err => console.log('SW Note:', err));
       }
     }
   </script>
 </body>
+
 </html>
