@@ -1240,16 +1240,16 @@
         </div>
         <div class="tracking-toggle-bar">
           <div class="toggle-option active" data-target="live" onclick="setTrackingSource('live')">
-            📍 Real Live GPS
+            Real Live GPS
           </div>
           <div class="toggle-option" data-target="sim" onclick="setTrackingSource('sim')">
-            🌀 3D Simulator
+            3D Simulator
           </div>
         </div>
 
         <div class="control-btn-group">
           <button class="btn btn-danger" style="width:100%;" onclick="triggerCrashAlert('Simulated Surge (>3.5G)')">
-            💥 Crash Alarm Test
+            Crash Alarm Test
           </button>
         </div>
       </div>
@@ -1322,7 +1322,7 @@
 
         <div class="control-btn-group" style="margin-top:14px;">
           <button class="btn btn-outline" style="width:100%;" onclick="flagHazard()">
-            🚩 Tag Road Hazard / Pothole
+            🚨 Tag Road Hazard / Pothole
           </button>
         </div>
       </div>
@@ -1601,7 +1601,7 @@
       const badge = document.getElementById('badge-sensors');
       if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission().then(state => {
-          if (state === 'granted') { bindSensors(); badge.classList.add('active'); badge.innerHTML = `<div class="badge-dot"></div> 📡 SENSORS ACTIVE`; }
+          if (state === 'granted') { bindSensors(); badge.classList.add('active'); badge.innerHTML = `<div class="badge-dot"></div>  SENSORS ACTIVE`; }
         });
       } else {
         bindSensors();
