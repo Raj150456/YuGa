@@ -50,7 +50,9 @@ python server_https.py
 
 ```
 Layover/
-├── hi.html            # Main PWA application & 3D Safety Cockpit
+├── index.html         # Main PWA application & 3D Safety Cockpit (Vercel entry point)
+├── hi.html            # Alternative standalone entry point
+├── vercel.json        # Vercel deployment & routing configuration
 ├── README.md          # Project documentation
 ├── server_https.py    # Local HTTPS development server
 └── tunnel.txt         # Dev tunnel configuration reference
