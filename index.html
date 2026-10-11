@@ -1490,8 +1490,8 @@
         if (simTimer) clearInterval(simTimer);
         isSimulating = false;
         hudSrc.innerText = 'REAL GPS';
-        hudSrc.style.color = 'var(--emerald)';
-        badge.innerHTML = `<div class="badge-dot"></div> 📍 GPS ACTIVE`;
+        hudSrc.style.color = 'var(--black)';
+        badge.innerHTML = `<div class="badge-dot"></div>  GPS ACTIVE`;
         badge.classList.add('active');
         addLogItem('Switched to Real GPS Tracking');
         if (userLat && userLng && map) {
@@ -1502,7 +1502,7 @@
         isSimulating = true;
         hudSrc.innerText = '3D SIM';
         hudSrc.style.color = 'var(--blue)';
-        badge.innerHTML = `<div class="badge-dot"></div> 🌀 3D SIM`;
+        badge.innerHTML = `<div class="badge-dot"></div>  3D SIM`;
         badge.classList.remove('active');
         addLogItem('Switched to 3D Physics Simulation');
         if (userLat && userLng) { simState.lat = userLat; simState.lng = userLng; }
