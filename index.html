@@ -1449,8 +1449,8 @@
         map = L.map('map', { zoomControl: false, attributionControl: false })
           .setView([11.2588, 75.7804], 15);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-          maxZoom: 19, subdomains: 'abcd'
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19
         }).addTo(map);
 
         const customIcon = L.divIcon({
@@ -1722,8 +1722,8 @@
       map.eachLayer(layer => { if (layer instanceof L.TileLayer) map.removeLayer(layer); });
       isDarkStyle = !isDarkStyle;
       const url = isDarkStyle
-        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
-        : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
+        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+        : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
       L.tileLayer(url, { maxZoom: 19 }).addTo(map);
     }
 
